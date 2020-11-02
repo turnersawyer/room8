@@ -6,4 +6,13 @@
 
     <string name="welcome_message">Welcome to the App!</string>
 
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_todo_button">NEW TO-DO</string>
+    <string name="save_todo_button">Save To Do</string>
+    <string name="switch_label">Completed</string>
+    <string name="due_date_label">Due Date: (click to change)</string>
+    <string name="not_complete_toggle">Not Complete</string>
+    <string name="complete_toggle">Complete</string>
+    <string name="banner_title">Items Due Today:</string>
+
 </resources>

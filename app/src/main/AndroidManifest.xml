@@ -18,6 +18,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.notifications.todomvp3.addedittodoitem.AddEditToDoItemActivity" />
+
+        <provider
+            android:name=".ui.notifications.todomvp3.data.ToDoProvider"
+            android:authorities="com.example.room8.ui.notifications.todomvp3.data"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ui.notifications.todomvp3.todolistactivity.ToDoListActivity" />
+
     </application>
 
 </manifest>

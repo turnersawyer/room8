@@ -1,0 +1,53 @@
+package com.example.room8.ui.notifications.todomvp3.todolistactivity;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
+//import com.example.room8.ui.notifications.todomvp3.R;
+import com.example.room8.R;
+import com.example.room8.ui.notifications.todomvp3.data.ToDoItemRepository;
+import util.AppExecutors;
+
+//import static com.google.common.base.Preconditions.checkNotNull;
+import static androidx.core.util.Preconditions.checkNotNull;
+
+/**
+ * ToDoListActivity - Main Activity for the Application
+ */
+public class ToDoListActivity extends AppCompatActivity {
+
+    //local instance of the toDoListPresenter, passed through into the toDoListFragment
+    private ToDoListPresenter mToDoListPresenter;
+
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Set view to use the main activity layout - a content frame that holds a single fragment
+        setContentView(R.layout.fragment_notifications);
+        //ToDoListFragment -- Main view for the ToDoListActivity
+        ToDoListFragment toDoListFragment =
+                (ToDoListFragment) getSupportFragmentManager().findFragmentById(R.id.toDoListFragmentFrame);
+        if (toDoListFragment == null) {
+            // Create the fragment
+            toDoListFragment = ToDoListFragment.newInstance();
+            // Check that it is not null
+            checkNotNull(toDoListFragment);
+            // Populate the fragment into the activity
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.toDoListFragmentFrame, toDoListFragment);
+            transaction.commit();
+        }
+        //Get an instance of the ToDoListPresenter
+        //Parameters - ToDoListRepository - Instance of the toDoListRepository
+        //toDoListFragment - the View to be communicated to by the presenter
+        // ToDoListRepository needs a thread pool to execute database/network calls in other threads
+        // ToDoListRepository needs the application context to be able to make calls to the ContentProvider
+        mToDoListPresenter = new ToDoListPresenter(ToDoItemRepository.getInstance(new AppExecutors(),getApplicationContext()),toDoListFragment);
+
+    }
+}
