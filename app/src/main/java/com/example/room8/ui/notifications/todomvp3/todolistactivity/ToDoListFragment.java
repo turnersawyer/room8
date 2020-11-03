@@ -26,8 +26,6 @@ import java.util.List;
 
 import static androidx.core.util.Preconditions.checkNotNull;
 
-//import com.example.room8.ui.notifications.todomvp3.R;
-
 /**
  * ToDoListFragment implements the ToDoListContract.View class.
  * Populates into ToDoListActivity content frame

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-//import com.example.room8.ui.notifications.todomvp3.R;
 import com.example.room8.R;
 import com.example.room8.ui.notifications.todomvp3.data.ToDoItemRepository;
 import util.AppExecutors;
@@ -21,7 +20,6 @@ public class ToDoListActivity extends AppCompatActivity {
 
     //local instance of the toDoListPresenter, passed through into the toDoListFragment
     private ToDoListPresenter mToDoListPresenter;
-
 
     @SuppressLint("RestrictedApi")
     @Override
