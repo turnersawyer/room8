@@ -1,4 +1,4 @@
-package com.example.room8.ui.notifications.todomvp3.todolistactivity;
+package com.example.room8.ui.todolist.todomvp3.todolistactivity;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

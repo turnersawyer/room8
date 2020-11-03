@@ -1,4 +1,4 @@
-package com.example.room8.ui.notifications.todomvp3.data;
+package com.example.room8.ui.todolist.todomvp3.data;
 import android.content.Context;
 
 import androidx.room.Database;

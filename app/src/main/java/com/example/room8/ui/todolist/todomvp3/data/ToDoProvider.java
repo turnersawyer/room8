@@ -1,4 +1,4 @@
-package com.example.room8.ui.notifications.todomvp3.data;
+package com.example.room8.ui.todolist.todomvp3.data;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 /**
  * ToDoProvider is a Content Provider
- * Calls to this provider should be made at the URI "content://com.example.room8.ui.notifications.todomvp3.data"
+ * Calls to this provider should be made at the URI "content://com.example.room8.ui.todolist.todomvp3.data"
  * appending the proper uri for the call (e.g. todoitems or todoitems/#)
  */
 public class ToDoProvider extends ContentProvider {
@@ -20,7 +20,7 @@ public class ToDoProvider extends ContentProvider {
     public static final String TAG = ToDoProvider.class.getName();
     private ToDoItemDao toDoItemDao;
 
-    public static final String AUTHORITY = "com.example.room8.ui.notifications.todomvp3.data";
+    public static final String AUTHORITY = "com.example.room8.ui.todolist.todomvp3.data";
     public static final String TODOITEM_TABLE_NAME = "todoitems";
 
     public static final int ID_TODOITEM_DATA = 1;

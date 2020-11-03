@@ -1,6 +1,6 @@
-package com.example.room8.ui.notifications.todomvp3.todolistactivity;
+package com.example.room8.ui.todolist.todomvp3.todolistactivity;
 
-import com.example.room8.ui.notifications.todomvp3.data.ToDoItem;
+import com.example.room8.ui.todolist.todomvp3.data.ToDoItem;
 
 import java.util.List;
 

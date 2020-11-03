@@ -1,4 +1,4 @@
-package com.example.room8.ui.notifications.todomvp3.addedittodoitem;
+package com.example.room8.ui.todolist.todomvp3.addedittodoitem;
 
 
 import android.app.Activity;
@@ -22,7 +22,7 @@ import java.util.Calendar;
 
 // import com.example.room8.ui.notifications.todomvp3.R;
 import com.example.room8.R;
-import com.example.room8.ui.notifications.todomvp3.data.ToDoItem;
+import com.example.room8.ui.todolist.todomvp3.data.ToDoItem;
 
 public class AddEditToDoItemActivity extends AppCompatActivity {
 

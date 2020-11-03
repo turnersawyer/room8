@@ -1,13 +1,13 @@
-package com.example.room8.ui.notifications.todomvp3.todolistactivity;
+package com.example.room8.ui.todolist.todomvp3.todolistactivity;
 
 import android.app.Activity;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.room8.ui.notifications.todomvp3.data.ToDoItem;
-import com.example.room8.ui.notifications.todomvp3.data.ToDoItemRepository;
-import com.example.room8.ui.notifications.todomvp3.data.ToDoListDataSource;
+import com.example.room8.ui.todolist.todomvp3.data.ToDoItem;
+import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
+import com.example.room8.ui.todolist.todomvp3.data.ToDoListDataSource;
 
 import java.util.List;
 
