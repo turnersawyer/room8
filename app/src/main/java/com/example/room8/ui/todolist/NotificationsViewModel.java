@@ -1,4 +1,6 @@
-package com.example.room8.ui.notifications;
+package com.example.room8.ui.todolist;
+
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,6 +13,7 @@ public class NotificationsViewModel extends ViewModel {
     public NotificationsViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is notifications fragment");
+        Log.d("VIEW MODEL", "FRAG VIEW MODEL");
     }
 
     public LiveData<String> getText() {
