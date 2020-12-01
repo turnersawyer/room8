@@ -1,29 +1,28 @@
 package com.example.room8.ui.home;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.BaseAdapter;
+import android.widget.CalendarView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.room8.R;
-import com.example.room8.ui.todolist.todomvp3.addedittodoitem.AddEditToDoItemActivity;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItem;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
-import util.AppExecutors;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import static androidx.core.util.Preconditions.checkNotNull;
 
@@ -47,16 +46,19 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mCalendarAdapter = new CalendarItemAdapter(new ArrayList<ToDoItem>(0));
+        Log.d("CALENDAR", "IN ON CREATE");
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        toDoItemRepository = new ToDoItemRepository(new AppExecutors(), getContext());
+        Log.d("CALENDAR", "IN ON CREATE VIEW");
+        toDoItemRepository = new ToDoItemRepository();
         mView = (HomeFragment) getFragmentManager().findFragmentById(R.id.nav_host_fragment);
         homeViewModel = ViewModelProviders.of(this, new HomeViewModel.MyViewModelFactory(toDoItemRepository,mView)).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final CalendarView calendarView = root.findViewById(R.id.calender);
         final ListView listView = root.findViewById(R.id.calendarItem);
+
         //clicked date
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -65,7 +67,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                                             int dayOfMonth) {
                 GregorianCalendar cal = new GregorianCalendar(year, month, dayOfMonth);
                 homeViewModel.loadListItems(cal.getTimeInMillis());
-
             }
         });
 

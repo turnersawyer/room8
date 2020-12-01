@@ -33,13 +33,8 @@ public class HomeViewModel extends ViewModel {
             public void onToDoItemsLoaded(List<ToDoItem> toDoItems) {
                 if(toDoItems.size()==0){
                     Log.d("CALENDAR", "empty");
-
                 }
-
                 mCalendarItemView.showCalendarItems(toDoItems);
-
-
-
             }
 
             @Override

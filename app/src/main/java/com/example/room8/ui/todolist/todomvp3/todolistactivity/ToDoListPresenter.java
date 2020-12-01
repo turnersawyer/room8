@@ -53,7 +53,7 @@ public class ToDoListPresenter implements ToDoListContract.Presenter {
         item.setContent("Content");
         item.setCompleted(false);
         item.setDueDate(0);
-        item.setId(-1);
+        item.setId(null);
         //Show AddEditToDoItemActivity with a create request and temporary item
         mToDoItemView.showAddEditToDoItem(item,CREATE_TODO_REQUEST);
     }
@@ -115,6 +115,7 @@ public class ToDoListPresenter implements ToDoListContract.Presenter {
             @Override
             public void onToDoItemsLoaded(List<ToDoItem> toDoItems) {
                 Log.d("PRESENTER","Loaded");
+                Log.d("PRESENTER", String.valueOf(toDoItems.size()));
                 ////////////////////////////////////
                 // Remove the following lines
                 // Just for demonstration

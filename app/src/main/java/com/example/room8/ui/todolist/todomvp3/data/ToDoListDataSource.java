@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ToDoListDataSource {
 
-    void deleteToDoItem(@NonNull long id);
+    void deleteToDoItem(@NonNull String id);
 
     /**
      * LoadToDoItemsCallback interface

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1020116616204",
+    "firebase_url": "https://room8-523a0.firebaseio.com",
+    "project_id": "room8-523a0",
+    "storage_bucket": "room8-523a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020116616204:android:2aa1b87f36a0259c6e5a29",
+        "android_client_info": {
+          "package_name": "com.example.room8"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1020116616204-k4j121bg8h3gb0cq4hle3upi2669stss.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.room8",
+            "certificate_hash": "9086470a8e2fee547edb6d49ceba43cde3420e5e"
+          }
+        },
+        {
+          "client_id": "1020116616204-4qgklst2rpol2sjj8gnsjn8rrd8u541i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzi9QCHlKJxsscMG8Wlbz8eQepkbdkiHo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1020116616204-4qgklst2rpol2sjj8gnsjn8rrd8u541i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

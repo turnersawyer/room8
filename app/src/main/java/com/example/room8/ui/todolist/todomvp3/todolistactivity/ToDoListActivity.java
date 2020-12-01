@@ -15,8 +15,6 @@ import com.example.room8.R;
 import com.example.room8.ui.todolist.NotificationsViewModel;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 
-import util.AppExecutors;
-
 import static androidx.core.util.Preconditions.checkNotNull;
 
 public class ToDoListActivity extends Fragment {
@@ -66,6 +64,6 @@ public class ToDoListActivity extends Fragment {
         //toDoListFragment - the View to be communicated to by the presenter
         // ToDoListRepository needs a thread pool to execute database/network calls in other threads
         // ToDoListRepository needs the application context to be able to make calls to the ContentProvider
-        mToDoListPresenter = new ToDoListPresenter(ToDoItemRepository.getInstance(new AppExecutors(),getContext()),toDoListFragment);
+        mToDoListPresenter = new ToDoListPresenter(new ToDoItemRepository(), toDoListFragment);
     }
 }

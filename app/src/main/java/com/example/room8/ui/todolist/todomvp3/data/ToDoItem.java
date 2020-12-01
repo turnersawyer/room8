@@ -25,7 +25,10 @@ public class ToDoItem implements Serializable {
 
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private int idFake;
+
+    @ColumnInfo(name = "id")
+    private String id;
 
     @ColumnInfo(name = "title")
     private String title;
@@ -40,11 +43,20 @@ public class ToDoItem implements Serializable {
     private long dueDate;
 
     //Following are getters and setters for all five member variables
-    public Integer getId(){
+    public int getIdFake() {
+        return idFake;
+    }
+
+    public void setIdFake(int idFake) {
+        this.idFake = idFake;
+    }
+
+
+    public String getId(){
         return id;
     }
 
-    public void setId(Integer id){
+    public void setId(String id){
         this.id = id;
     }
 
@@ -84,7 +96,7 @@ public class ToDoItem implements Serializable {
     public static ToDoItem fromContentValues(ContentValues contentValues){
         ToDoItem item = new ToDoItem();
         if(contentValues.containsKey(TODOITEM_ID)){
-            item.setId(contentValues.getAsInteger(TODOITEM_ID));
+            item.setId(contentValues.getAsString(TODOITEM_ID));
         }
         if(contentValues.containsKey(TODOITEM_TITLE)){
             item.setTitle(contentValues.getAsString(TODOITEM_TITLE));
@@ -100,6 +112,4 @@ public class ToDoItem implements Serializable {
         }
         return item;
     }
-
-
 }
