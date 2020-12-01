@@ -1,6 +1,7 @@
 package com.example.room8.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.room8.R;
+import com.example.room8.ui.todolist.todomvp3.addedittodoitem.AddEditToDoItemActivity;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItem;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 import util.AppExecutors;
@@ -55,7 +57,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final CalendarView calendarView = root.findViewById(R.id.calender);
         final ListView listView = root.findViewById(R.id.calendarItem);
-
         //clicked date
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -67,10 +68,13 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
             }
         });
+
         listView.setAdapter(mCalendarAdapter);
 
         return root;
     }
+
+
 
     @Override
     public void setPresenter(HomeContract.Presenter presenter) {
