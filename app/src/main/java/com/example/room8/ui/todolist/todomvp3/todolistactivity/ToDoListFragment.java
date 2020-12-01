@@ -189,7 +189,7 @@ public class ToDoListFragment extends Fragment implements ToDoListContract.View 
     /**
      * Adapter for ListView to show ToDoItems
      */
-    private static class ToDoItemsAdapter extends BaseAdapter {
+    public static class ToDoItemsAdapter extends BaseAdapter {
 
         //List of all ToDoItems
         private List<ToDoItem> mToDoItems;

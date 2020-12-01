@@ -3,12 +3,16 @@ package com.example.room8.ui.todolist.todomvp3.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.ParseException;
 import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import util.AppExecutors;
@@ -31,7 +35,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
      * @param appExecutors - thread pool
      * @param context
      */
-    private ToDoItemRepository(@NonNull AppExecutors appExecutors, @NonNull Context context){
+    public ToDoItemRepository(@NonNull AppExecutors appExecutors, @NonNull Context context){
         mAppExecutors = appExecutors;
         mContext = context;
     }
@@ -86,6 +90,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
                                 item.setCompleted(c.getInt(c.getColumnIndex(ToDoItem.TODOITEM_COMPLETED)) > 0);
                                 toDoItems.add(item);
                             }
+                            Log.d("DATABASE", toDoItems + "");
                             c.close();
                             callback.onToDoItemsLoaded(toDoItems);
                         }
@@ -97,14 +102,61 @@ public class ToDoItemRepository implements ToDoListDataSource {
         mAppExecutors.diskIO().execute(runnable);
     }
 
-    /**
-     * Not implemented yet
-     * @param toDoItemId
-     * @param callback
-     */
+
     @Override
-    public void getToDoItem(@NonNull String toDoItemId, @NonNull GetToDoItemCallback callback) {
-        Log.d("REPOSITORY","GetToDoItem");
+    public void getToDoItemsDate(@NonNull final Long dueDate, @NonNull final LoadToDoItemsCallback callback) {
+        Log.d("REPOSITORY","GetToDoItem" + dueDate);
+
+        Runnable runnable = new Runnable(){
+            @Override
+            public void run() {
+                String[] projection = {
+                        ToDoItem.TODOITEM_ID,
+                        ToDoItem.TODOITEM_TITLE,
+                        ToDoItem.TODOITEM_CONTENT,
+                        ToDoItem.TODOITEM_DUEDATE,
+                        ToDoItem.TODOITEM_COMPLETED};
+                final Cursor c = mContext.getContentResolver().query(Uri.parse("content://" + ToDoProvider.AUTHORITY + "/" + ToDoProvider.TODOITEM_TABLE_NAME), projection, null, null, null);
+                final List<ToDoItem> toDoItems = new ArrayList<ToDoItem>(0);
+                mAppExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(c == null){
+                            callback.onDataNotAvailable();
+                        } else{
+                            while(c.moveToNext()) {
+                                ToDoItem item = new ToDoItem();
+                                item.setId(c.getInt(c.getColumnIndex(ToDoItem.TODOITEM_ID)));
+                                item.setTitle(c.getString(c.getColumnIndex(ToDoItem.TODOITEM_TITLE)));
+                                item.setContent(c.getString(c.getColumnIndex(ToDoItem.TODOITEM_CONTENT)));
+                                item.setDueDate(c.getLong(c.getColumnIndex(ToDoItem.TODOITEM_DUEDATE)));
+                                item.setCompleted(c.getInt(c.getColumnIndex(ToDoItem.TODOITEM_COMPLETED)) > 0);
+                                long time = c.getLong(c.getColumnIndex(ToDoItem.TODOITEM_DUEDATE));
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                                GregorianCalendar gc = new GregorianCalendar();
+                                gc.setTimeInMillis(time);
+                                String times = sdf.format(gc.getTime());
+                                Date day = null;
+                                try {
+                                    day = sdf.parse(times);
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                long date = day.getTime();
+
+                                if(date== dueDate){
+                                    toDoItems.add(item);
+                                }
+                            }
+                            c.close();
+                            callback.onToDoItemsLoaded(toDoItems);
+                        }
+                    }
+                });
+
+            }
+        };
+        mAppExecutors.diskIO().execute(runnable);
     }
 
     /**

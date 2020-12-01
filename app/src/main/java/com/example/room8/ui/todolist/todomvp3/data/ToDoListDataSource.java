@@ -43,10 +43,11 @@ public interface ToDoListDataSource {
 
     /**
      * getToDoItem - Get a single ToDoItem - currently not implemented
-     * @param toDoItemId - String of the current ItemID to be retrieved
+     * @param dueDate - String of the current ItemID to be retrieved
      * @param callback - Callback function
      */
-    void getToDoItem(@NonNull String toDoItemId, @NonNull GetToDoItemCallback callback);
+
+    void getToDoItemsDate(@NonNull Long dueDate, @NonNull LoadToDoItemsCallback callback);
 
     /**
      * SaveToDoItem saves a toDoItem to the database - No callback (should be implemented for
