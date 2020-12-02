@@ -47,7 +47,13 @@ public class SplashScreen extends MainActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signInUser(email.getText().toString(), password.getText().toString());
+                if (checkFields(email.getText().toString(), password.getText().toString())) {
+                    signInUser(email.getText().toString(), password.getText().toString());
+                } else {
+                    Toast.makeText(SplashScreen.this, "Incorrect Email or Password.",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -58,6 +64,18 @@ public class SplashScreen extends MainActivity {
                 newUserPopup();
             }
         });
+    }
+
+    private boolean checkFields(String email, String password) {
+        boolean valid = false;
+        if (TextUtils.isEmpty(password)) {
+            valid = false;
+        } else if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            valid = false;
+        } else {
+            valid = true;
+        }
+        return valid;
     }
 
     private void signInUser(String email, String password) {
@@ -150,6 +168,8 @@ public class SplashScreen extends MainActivity {
                     errorTV.setText("Emails must match.");
                 } else if (!newPassword.equals(newPasswordConfirm)) {
                     errorTV.setText("Passwords must match.");
+                } else if (TextUtils.isEmpty(apartmentName)) {
+                    errorTV.setText("Please enter an apartment name.");
                 } else {
                     errorTV.setText("");
                     makeNewUser(newEmail, newPassword, apartmentName);

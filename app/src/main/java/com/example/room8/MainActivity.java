@@ -1,6 +1,9 @@
 package com.example.room8;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -29,13 +32,31 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        INSTANCE = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+
+        Button logoutBtn = findViewById(R.id.logoutButton);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+        Button settingsBtn = findViewById(R.id.settingsButton);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    private void logout() {
+        INSTANCE.terminate();
+        mAuth.signOut();
+        startActivity(new Intent(getApplicationContext(), SplashScreen.class));
     }
 
 }
