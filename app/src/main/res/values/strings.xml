@@ -15,4 +15,7 @@
     <string name="complete_toggle">Complete</string>
     <string name="banner_title">Items Due Today:</string>
 
+    <string name="new_user_confirm_title">Confirm</string>
+    <string name="new_user_cancel_title">Cancel</string>
+
 </resources>

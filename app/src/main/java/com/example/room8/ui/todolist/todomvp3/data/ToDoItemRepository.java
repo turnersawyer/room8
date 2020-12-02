@@ -9,7 +9,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -24,36 +23,34 @@ import util.AppExecutors;
  */
 public class ToDoItemRepository implements ToDoListDataSource {
 
-    //Memory leak here by including the context - Fix this at some point
-    private static volatile ToDoItemRepository INSTANCE2; //uncomment
-
     //Thread pool for execution on other threads
     private AppExecutors mAppExecutors;
     //Context for calling ToDoProvider
     private Context mContext;
-    private static FirebaseFirestore INSTANCE = FirebaseFirestore.getInstance();;
+    private static FirebaseFirestore INSTANCE;
     // private String collectionPath = "toDoItemsCollection";
-    private static String collectionPath = "toDoItemsCollection";
-    private static CollectionReference toDoItemsCollection = INSTANCE.collection(collectionPath);
+    private static String collectionPathApartment = "apartments";
+    private static String collectionPathToDo = "toDoItemsCollection";
+    private static String apartmentPath;
 
 
     public ToDoItemRepository(){
         getInstance();
     }
 
-
     public static FirebaseFirestore getInstance(){
         if(INSTANCE == null){
             synchronized (ToDoItemRepository.class){
                 if(INSTANCE == null){
                     INSTANCE = FirebaseFirestore.getInstance();
-                    if(toDoItemsCollection == null){
-                        toDoItemsCollection = INSTANCE.collection("toDoItemsCollection");
-                    }
                 }
             }
         }
         return INSTANCE;
+    }
+
+    public static void setCollectionPath(String collection) {
+        apartmentPath = collection;
     }
 
     /**
@@ -66,7 +63,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
 
         final List<ToDoItem> toDoItems = new ArrayList<ToDoItem>(0);
 
-        INSTANCE.collection(collectionPath)
+        INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -98,7 +95,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
 
         final List<ToDoItem> toDoItems = new ArrayList<ToDoItem>(0);
 
-        INSTANCE.collection(collectionPath)
+        INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo)
                 .whereGreaterThan("dueDate", dueDate - 1)
                 .whereLessThan("dueDate", dueDate + 86400000)
                 .get()
@@ -132,7 +129,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
     public void saveToDoItem(@NonNull final ToDoItem toDoItem) {
         Log.d("REPOSITORY","SaveToDoItem");
 
-        INSTANCE.collection(collectionPath).document(toDoItem.getId().toString()).set(toDoItem)
+        INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo).document(toDoItem.getId()).set(toDoItem)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -155,12 +152,12 @@ public class ToDoItemRepository implements ToDoListDataSource {
     public void createToDoItem(@NonNull final ToDoItem toDoItem) {
         Log.d("REPOSITORY","CreateToDoItem");
 
-        INSTANCE.collection(collectionPath).document();
-        String id = INSTANCE.collection(collectionPath).document().getId();
+        INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo).document();
+        String id = INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo).document().getId();
 
         toDoItem.setId(id);
 
-        INSTANCE.collection(collectionPath).document(id).set(toDoItem)
+        INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo).document(id).set(toDoItem)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -182,7 +179,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
     @Override
     public void deleteToDoItem(@NonNull final String id) {
 
-        INSTANCE.collection(collectionPath).document(id).delete()
+        INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo).document(id).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
