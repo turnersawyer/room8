@@ -18,4 +18,7 @@
     <string name="new_user_confirm_title">Confirm</string>
     <string name="new_user_cancel_title">Cancel</string>
 
+    <string name="settings_button_title">Settings</string>
+    <string name="logout_button_title">Logout</string>
+
 </resources>
