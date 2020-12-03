@@ -53,6 +53,10 @@ public class ToDoItemRepository implements ToDoListDataSource {
         apartmentPath = collection;
     }
 
+    public String getCollectionPathApartment(){
+        return apartmentPath;
+    }
+
     /**
      * getToDoItems runs query in a separate thread, and on success loads data from cursor into a list
      * @param callback
@@ -102,6 +106,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        Log.d("REPO", task.getResult().toString());
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("Getting all items", "loaded from firebase by date: " + document.getId() + " => " + document.getData());

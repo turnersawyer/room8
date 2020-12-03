@@ -15,8 +15,6 @@ import java.util.List;
 
 public class HomeViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
-    private ArrayList<String> a;
     private ToDoItemRepository mToDoItemRepository;
     private HomeContract.View mCalendarItemView;
 
@@ -44,9 +42,6 @@ public class HomeViewModel extends ViewModel {
         });
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
     public static class MyViewModelFactory implements ViewModelProvider.Factory {
         private ToDoItemRepository mtoDoItemRepository;
         private HomeContract.View mView;

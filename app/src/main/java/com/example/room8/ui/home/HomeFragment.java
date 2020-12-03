@@ -21,6 +21,7 @@ import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -30,10 +31,10 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     private HomeViewModel homeViewModel;
     private ToDoItemRepository toDoItemRepository;
-    String curDate;
     private CalendarItemAdapter mCalendarAdapter;
     private HomeContract.Presenter mPresenter;
     private HomeContract.View mView;
+    private ListView listView;
 
     public HomeFragment() {
     }
@@ -46,8 +47,10 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mCalendarAdapter = new CalendarItemAdapter(new ArrayList<ToDoItem>(0));
+
         Log.d("CALENDAR", "IN ON CREATE");
     }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -56,8 +59,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         mView = (HomeFragment) getFragmentManager().findFragmentById(R.id.nav_host_fragment);
         homeViewModel = ViewModelProviders.of(this, new HomeViewModel.MyViewModelFactory(toDoItemRepository,mView)).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final CalendarView calendarView = root.findViewById(R.id.calender);
-        final ListView listView = root.findViewById(R.id.calendarItem);
+        CalendarView calendarView = root.findViewById(R.id.calender);
+        listView = root.findViewById(R.id.calendarItem);
 
         //clicked date
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -70,8 +73,14 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             }
         });
 
-        listView.setAdapter(mCalendarAdapter);
+        if(toDoItemRepository.getCollectionPathApartment() != null){
+            Calendar cal = Calendar.getInstance();
+            calendarView.getDate();
+            GregorianCalendar calendar = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+            homeViewModel.loadListItems(calendar.getTimeInMillis());
+        }
 
+        listView.setAdapter(mCalendarAdapter);
         return root;
     }
 
