@@ -101,6 +101,8 @@ public class SplashScreen extends MainActivity {
         String uID = mAuth.getCurrentUser().getUid();
         Log.d("SetupDB", "uID: " + uID);
 
+        SplashScreen.super.getApartmentName();
+
         INSTANCE.collection("users").document(uID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

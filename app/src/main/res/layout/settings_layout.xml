@@ -75,6 +75,14 @@
             android:text="@string/change_password_button_title" />
 
         <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#E89797"
+            android:text="@string/logout_button_title" />
+
+        <Button
             android:id="@+id/closeSettingsBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static FirebaseFirestore INSTANCE;
     private ToDoListContract.Presenter mPresenter;
+    private TextView apartmentNameTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +57,7 @@ public class MainActivity extends AppCompatActivity {
         INSTANCE = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-
-        Button logoutBtn = findViewById(R.id.logoutButton);
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logout();
-            }
-        });
-
-        Button settingsBtn = findViewById(R.id.settingsButton);
+        ImageButton settingsBtn = findViewById(R.id.settingsButton);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
                 runSettingsPopUp();
             }
         });
+
+        apartmentNameTV = (TextView) findViewById(R.id.apartmentTitle);
+
+        if (mAuth.getCurrentUser() != null) {
+            getApartmentName();
+        }
     }
 
     @Override
@@ -79,10 +78,45 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    /**
+     * This might have disabled the back button
+     */
+    @Override
+    public void onBackPressed() {
+        if (mAuth.getCurrentUser() != null) {
+            getApartmentName();
+        }
+    }
+
     private void logout() {
         // INSTANCE.terminate();
         mAuth.signOut();
         startActivity(new Intent(getApplicationContext(), SplashScreen.class));
+    }
+
+    public void getApartmentName() {
+        String userEmail = mAuth.getCurrentUser().getEmail();
+        final String[] apartmentName = {""};
+        INSTANCE.collection("users")
+                .whereEqualTo("user", userEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("Getting User Apartment NAME", document.getId() + " => " + document.getString("apartment"));
+                                apartmentName[0] = document.getString("apartment");
+                                Log.d("SETTING TITLE", "APARTMENT: " + apartmentName[0]);
+                                apartmentNameTV.setText(apartmentName[0]);
+
+                                Log.d("GETTING TITLE", "APARTMENT: " + apartmentNameTV.getText());
+                            }
+                        } else {
+                            Log.d("Getting User Apartment", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 
     private void runSettingsPopUp() {
@@ -117,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         Button changePasswordBtn = (Button) settingsView.findViewById(R.id.changePasswordBtn);
         Button changeApartmentBtn = (Button) settingsView.findViewById(R.id.changeApartmentBtn);
         Button settingsCloseBtn = (Button) settingsView.findViewById(R.id.closeSettingsBtn);
+        Button logoutBtn = (Button) settingsView.findViewById(R.id.logoutButton);
 
         changeApartmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +173,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 settingsDialog.dismiss();
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                settingsDialog.dismiss();
+                logout();
             }
         });
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,35 +12,43 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/settingsButton"
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="64dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/apartmentTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:layout_constraintEnd_toEndOf="@id/logoutButton"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="160dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/settings_button_title" />
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="64dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/logout_button_title" />
+            app:srcCompat="@drawable/settings_btn_image" />
+
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
