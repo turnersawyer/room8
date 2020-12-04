@@ -64,6 +64,53 @@ public class SplashScreen extends MainActivity {
                 newUserPopup();
             }
         });
+
+        Button forgotPassword = findViewById(R.id.forgotPasswordButton);
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgotPasswordPopup();
+            }
+        });
+    }
+
+    private void forgotPasswordPopup() {
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View forgotPasswordView = layoutInflater.inflate(R.layout.forgot_password_layout, null);
+
+        final AlertDialog forgotPassword = new AlertDialog.Builder(this).create();
+        forgotPassword.setTitle("Forgot Password");
+
+        final TextView emailTV = (TextView) forgotPasswordView.findViewById(R.id.forgotEmailTV);
+        Button cancelPassword = (Button) forgotPasswordView.findViewById(R.id.forgotPasswordCancel);
+        Button confirmPassword = (Button) forgotPasswordView.findViewById(R.id.confirmForgotPassword);
+
+        cancelPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgotPassword.dismiss();
+            }
+        });
+
+        confirmPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userEmail = emailTV.getText().toString();
+                if (TextUtils.isEmpty(userEmail) || !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+                    Toast.makeText(SplashScreen.this, "Please enter a valid email.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    mAuth.sendPasswordResetEmail(userEmail);
+                    Toast.makeText(SplashScreen.this, "Password reset email sent to entered address.",
+                            Toast.LENGTH_SHORT).show();
+                    forgotPassword.dismiss();
+                }
+            }
+        });
+
+        forgotPassword.setView(forgotPasswordView);
+
+        forgotPassword.show();
     }
 
     private boolean checkFields(String email, String password) {
