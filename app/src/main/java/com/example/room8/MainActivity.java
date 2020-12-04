@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        INSTANCE.terminate();
+        // INSTANCE.terminate();
         mAuth.signOut();
         startActivity(new Intent(getApplicationContext(), SplashScreen.class));
     }
