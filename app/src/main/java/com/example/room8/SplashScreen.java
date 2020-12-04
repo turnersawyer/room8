@@ -1,5 +1,6 @@
 package com.example.room8;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -32,6 +34,7 @@ public class SplashScreen extends MainActivity {
     private FirebaseAuth mAuth;
     private TextView email;
     private TextView password;
+    @SuppressLint("StaticFieldLeak")
     private static FirebaseFirestore INSTANCE;
 
     @Override
@@ -100,10 +103,22 @@ public class SplashScreen extends MainActivity {
                     Toast.makeText(SplashScreen.this, "Please enter a valid email.",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    mAuth.sendPasswordResetEmail(userEmail);
-                    Toast.makeText(SplashScreen.this, "Password reset email sent to entered address.",
-                            Toast.LENGTH_SHORT).show();
-                    forgotPassword.dismiss();
+                    mAuth.sendPasswordResetEmail(userEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(SplashScreen.this, "Password reset email sent to entered address.",
+                                    Toast.LENGTH_SHORT).show();
+                            forgotPassword.dismiss();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SplashScreen.this, "Email has no associated account.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
             }
         });
@@ -114,13 +129,11 @@ public class SplashScreen extends MainActivity {
     }
 
     private boolean checkFields(String email, String password) {
-        boolean valid = false;
+        boolean valid = true;
         if (TextUtils.isEmpty(password)) {
             valid = false;
         } else if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             valid = false;
-        } else {
-            valid = true;
         }
         return valid;
     }
