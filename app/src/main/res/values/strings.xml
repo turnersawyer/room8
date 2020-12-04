@@ -21,4 +21,10 @@
     <string name="settings_button_title">Settings</string>
     <string name="logout_button_title">Logout</string>
 
+    <string name="user_email_label_title">Email: </string>
+    <string name="user_apartment_label_title">Apartment Name: </string>
+    <string name="change_apartment_button_title">Change Apartment Name</string>
+    <string name="change_password_button_title">Change Password</string>
+    <string name="settings_close_title">Close</string>
+
 </resources>

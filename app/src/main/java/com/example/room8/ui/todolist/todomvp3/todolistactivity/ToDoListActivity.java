@@ -12,14 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.room8.R;
-import com.example.room8.ui.todolist.NotificationsViewModel;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 
 import static androidx.core.util.Preconditions.checkNotNull;
 
 public class ToDoListActivity extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
     private ToDoListPresenter mToDoListPresenter;
     // Presenter instance for view
     private ToDoListContract.Presenter mPresenter;
@@ -40,6 +38,11 @@ public class ToDoListActivity extends Fragment {
         Log.d("ONCREATE", "INCREATE");
         View v = getView();
         //ToDoListFragment -- Main view for the ToDoListActivity
+        refreshThis();
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void refreshThis() {
         ToDoListFragment toDoListFragment =
                 (ToDoListFragment) getFragmentManager().findFragmentById(R.id.toDoListFragmentFrame);
         if (toDoListFragment == null) {
@@ -59,11 +62,6 @@ public class ToDoListActivity extends Fragment {
             // transaction.setReorderingAllowed(false);
             transaction.commit();
         }
-        //Get an instance of the ToDoListPresenter
-        //Parameters - ToDoListRepository - Instance of the toDoListRepository
-        //toDoListFragment - the View to be communicated to by the presenter
-        // ToDoListRepository needs a thread pool to execute database/network calls in other threads
-        // ToDoListRepository needs the application context to be able to make calls to the ContentProvider
         mToDoListPresenter = new ToDoListPresenter(new ToDoItemRepository(), toDoListFragment);
     }
 }

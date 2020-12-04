@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="?attr/actionModePasteDrawable"
         android:title="@string/title_todo" />
 
 </menu>

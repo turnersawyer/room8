@@ -28,7 +28,6 @@ public class ToDoItemRepository implements ToDoListDataSource {
     //Context for calling ToDoProvider
     private Context mContext;
     private static FirebaseFirestore INSTANCE;
-    // private String collectionPath = "toDoItemsCollection";
     private static String collectionPathApartment = "apartments";
     private static String collectionPathToDo = "toDoItemsCollection";
     private static String apartmentPath;
