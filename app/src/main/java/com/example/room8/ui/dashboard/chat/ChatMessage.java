@@ -39,13 +39,13 @@ public class ChatMessage {
         return user;
     }
 
-//    public Timestamp getTime() {
-//        return messageTime;
-//    }
-//
-//    public void setTime(Timestamp messageTime) {
-//        this.messageTime = messageTime;
-//    }
+    public Timestamp getTime() {
+        return messageTime;
+    }
+
+    public void setTime(Timestamp messageTime) {
+        this.messageTime = messageTime;
+    }
 
 
 }

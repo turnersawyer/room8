@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.room8.R;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.ViewHolder> {
 
@@ -59,6 +61,10 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         ChatMessage chatMessage = mMessages.get(position);
         holder.message.setText(chatMessage.getMessage());
         holder.username.setText(chatMessage.getName());
+        Date time = chatMessage.getTime().toDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
+
+        holder.time.setText(sdf.format(time));
 
 
     }
@@ -76,7 +82,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
             super(itemView);
             message = itemView.findViewById(R.id.message_text);
             username = itemView.findViewById(R.id.message_user);
-         //   time = itemView.findViewById(R.id.message_time);
+            time = itemView.findViewById(R.id.text_message_time);
         }
     }
 }
