@@ -148,7 +148,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
             final ToDoItem calendarItem = getItem(i);
             TextView calendarDate = (TextView) rowView.findViewById(R.id.calendarRowDate);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
             calendarDate.setText(sdf.format(calendarItem.getDueDate()));
 
             TextView calendarTitle = (TextView) rowView.findViewById(R.id.calendarRowTitle);

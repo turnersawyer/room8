@@ -122,6 +122,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
         INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo)
                 .whereGreaterThan("dueDate", dueDate - 1)
                 .whereLessThan("dueDate", dueDate + 86400000)
+                .orderBy("dueDate")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
