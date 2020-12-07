@@ -33,6 +33,7 @@ import com.example.room8.ui.todolist.todomvp3.data.ToDoItem;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,6 +46,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,7 +86,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         mMessage = root.findViewById(R.id.input);
         recyclerView = root.findViewById(R.id.list_of_messages);
 
-      //  root.findViewById(R.id.fab).setOnClickListener(this);
+        root.findViewById(R.id.fab).setOnClickListener(this);
 
         myDb = FirebaseFirestore.getInstance();
 
@@ -168,10 +170,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setMessage(message);
-        //    chatMessage.setTime(System.t);
+            chatMessage.setTime(new Timestamp(new Date(System.currentTimeMillis())));
 
-            User user = ((UserClient)(getActivity().getApplicationContext())).getUser();
-            chatMessage.setName(user.toString());
+            String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            chatMessage.setName(user);
 
             newMessageDoc.set(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -188,16 +190,5 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     }
 
-    public class UserClient extends Application{
-        private User user = null;
-
-        public User getUser(){
-            return user;
-        }
-
-        public void setUser(User user) {
-            this.user = user;
-        }
-    }
 }
 
