@@ -1,6 +1,5 @@
 package com.example.room8;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -34,7 +34,6 @@ public class SplashScreen extends MainActivity {
     private FirebaseAuth mAuth;
     private TextView email;
     private TextView password;
-    @SuppressLint("StaticFieldLeak")
     private static FirebaseFirestore INSTANCE;
 
     @Override
@@ -200,6 +199,7 @@ public class SplashScreen extends MainActivity {
         final TextView newPasswordTVConfirm = (TextView) newUserView.findViewById(R.id.confirmNewPassword);
         final TextView apartmentNameTV = (TextView) newUserView.findViewById(R.id.roomName);
         final TextView errorTV = (TextView) newUserView.findViewById(R.id.errorMessage);
+        final TextView nameTV = (TextView) newUserView.findViewById(R.id.newName);
 
         Button cancel = (Button) newUserView.findViewById(R.id.newUserCancel);
         Button confirm = (Button) newUserView.findViewById(R.id.newUserConfirm);
@@ -219,10 +219,11 @@ public class SplashScreen extends MainActivity {
                 String newPassword = newPasswordTV.getText().toString();
                 String newPasswordConfirm = newPasswordTVConfirm.getText().toString();
                 String apartmentName = apartmentNameTV.getText().toString();
+                String firstName = nameTV.getText().toString();
 
                 if (TextUtils.isEmpty(newEmail) || !Patterns.EMAIL_ADDRESS.matcher(newEmail).matches()) {
                     errorTV.setText("Please enter a valid email.");
-                } else if (TextUtils.isEmpty(newPassword) || newPassword.length() < 6) {
+                } else if (TextUtils.isEmpty(newPassword) || newPassword.length() < 6 || newPassword.startsWith(" ")) {
                     errorTV.setText("Password must be at least 6 characters.");
                 } else if ((!newEmail.equals(newEmailConfirm)) && (!newPassword.equals(newPasswordConfirm))) {
                     errorTV.setText("Emails and passwords must match.");
@@ -230,11 +231,13 @@ public class SplashScreen extends MainActivity {
                     errorTV.setText("Emails must match.");
                 } else if (!newPassword.equals(newPasswordConfirm)) {
                     errorTV.setText("Passwords must match.");
-                } else if (TextUtils.isEmpty(apartmentName)) {
+                } else if (TextUtils.isEmpty(apartmentName) || apartmentName.startsWith(" ")) {
                     errorTV.setText("Please enter an apartment name.");
-                } else {
+                } else if (TextUtils.isEmpty(firstName) || firstName.startsWith(" ")) {
+                    errorTV.setText("Please enter a name.");
+                }else {
                     errorTV.setText("");
-                    makeNewUser(newEmail, newPassword, apartmentName);
+                    makeNewUser(newEmail, newPassword, apartmentName, firstName);
                     newUser.dismiss();
                 }
                 Log.d("NEW", "USER: '" + newEmail + "' '" + newEmailConfirm + "'");
@@ -247,7 +250,7 @@ public class SplashScreen extends MainActivity {
         newUser.show();
     }
 
-    private void makeNewUser(final String email, final String password, final String apartmentName) {
+    private void makeNewUser(final String email, final String password, final String apartmentName, final String firstName) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -258,10 +261,17 @@ public class SplashScreen extends MainActivity {
 
                             String uID = mAuth.getCurrentUser().getUid();
 
+                            UserProfileChangeRequest userNameUpdate = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(firstName)
+                                    .build();
+
+                            mAuth.getCurrentUser().updateProfile(userNameUpdate);
+
                             Map<String, Object> userObject = new HashMap<>();
                             userObject.put("user", email);
                             userObject.put("userID", uID);
                             userObject.put("apartment", apartmentName);
+                            userObject.put("name", firstName);
 
                             INSTANCE.collection("users").document(uID)
                                     .set(userObject, SetOptions.merge())
