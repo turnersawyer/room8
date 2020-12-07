@@ -63,8 +63,9 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
         holder.username.setText(chatMessage.getName());
         Date time = chatMessage.getTime().toDate();
         SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("MMM d yyyy");
 
-        holder.time.setText(sdf.format(time));
+        holder.time.setText(sdf2.format(time) + "\n" + sdf.format(time));
 
 
     }
