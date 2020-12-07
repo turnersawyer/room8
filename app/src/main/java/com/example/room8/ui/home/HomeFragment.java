@@ -89,7 +89,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
 
-
         label.setText("Items due on " + DateFormat.format("MMMM dd yyyy", cal));
 
         listView.setAdapter(mCalendarAdapter);
@@ -144,16 +143,17 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             View rowView = view;
             if(rowView == null) {
                 LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                rowView = inflater.inflate(R.layout.fragment_dashboard, viewGroup, false);
+                rowView = inflater.inflate(R.layout.calender_row, viewGroup, false);
             }
 
             final ToDoItem calendarItem = getItem(i);
-            TextView calendarDate = (TextView) rowView.findViewById(R.id.tvDate);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+            TextView calendarDate = (TextView) rowView.findViewById(R.id.calendarRowDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
             calendarDate.setText(sdf.format(calendarItem.getDueDate()));
 
-            TextView calendarTitle = (TextView) rowView.findViewById(R.id.tvTitle);
+            TextView calendarTitle = (TextView) rowView.findViewById(R.id.calendarRowTitle);
             calendarTitle.setText(calendarItem.getTitle());
+            Log.d("CALENDAR", "TITLE: " + calendarItem.getTitle());
 
             return rowView;
         }
