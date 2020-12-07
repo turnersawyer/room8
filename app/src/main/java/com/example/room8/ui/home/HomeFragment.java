@@ -153,6 +153,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
             TextView calendarTitle = (TextView) rowView.findViewById(R.id.calendarRowTitle);
             calendarTitle.setText(calendarItem.getTitle());
+            Log.d("CALENDAR", "TITLE: " + calendarItem.getTitle());
 
             return rowView;
         }
