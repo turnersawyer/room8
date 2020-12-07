@@ -52,7 +52,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
         apartmentPath = collection;
     }
 
-    public String getCollectionPathApartment(){
+    public static String getCollectionPathApartment(){
         return apartmentPath;
     }
 

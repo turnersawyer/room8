@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.room8"
-        minSdkVersion 27
+        minSdkVersion 25
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -41,5 +41,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-messaging:15.0.2'
+    implementation 'com.google.firebase:firebase-firestore:17.0.4'
 
 }
+apply plugin: 'com.google.gms.google-services'
