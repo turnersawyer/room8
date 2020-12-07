@@ -74,10 +74,10 @@ public class ToDoItemRepository implements ToDoListDataSource {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("Getting all items", "loading all from firebase: " + document.getId() + " => " + document.getData());
+                                // Log.d("Getting all items", "loading all from firebase: " + document.getId() + " => " + document.getData());
                                 ToDoItem loadedToDo = document.toObject(ToDoItem.class);
                                 toDoItems.add(loadedToDo);
-                                Log.d("Getting all items", "loaded todo: " + loadedToDo.getId());
+                                // Log.d("Getting all items", "loaded todo: " + loadedToDo.getId());
                             }
                         } else {
                             Log.d("Getting all items", "Error getting documents: ", task.getException());

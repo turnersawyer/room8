@@ -1,7 +1,6 @@
 package com.example.room8.ui.todolist.todomvp3.todolistactivity;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -39,8 +38,6 @@ public class ToDoListFragment extends Fragment implements ToDoListContract.View 
     // Inner class instance for ListView adapter
     private ToDoItemsAdapter mToDoItemsAdapter;
 
-    AlarmManager alarmManager;
-
     public ToDoListFragment() {
         // Required empty public constructor
     }
@@ -74,6 +71,7 @@ public class ToDoListFragment extends Fragment implements ToDoListContract.View 
     @Override
     public void onResume(){
         super.onResume();
+        Log.d("FRAGMENT", "IN RESUME");
         mPresenter.start();
     }
 
@@ -222,6 +220,7 @@ public class ToDoListFragment extends Fragment implements ToDoListContract.View 
         public void replaceData(List<ToDoItem> toDoItems) {
             setList(toDoItems);
             notifyDataSetChanged();
+
         }
 
         @SuppressLint("RestrictedApi")
