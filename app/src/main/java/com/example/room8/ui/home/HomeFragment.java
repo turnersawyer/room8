@@ -2,6 +2,7 @@ package com.example.room8.ui.home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         CalendarView calendarView = root.findViewById(R.id.calender);
         listView = root.findViewById(R.id.calendarItem);
+        final TextView label = root.findViewById(R.id.toDoLabel);
 
         //clicked date
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -70,6 +72,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                                             int dayOfMonth) {
                 GregorianCalendar cal = new GregorianCalendar(year, month, dayOfMonth);
                 homeViewModel.loadListItems(cal.getTimeInMillis());
+                label.setText("Items due on " + DateFormat.format("MMMM dd yyyy", cal));
             }
         });
 
@@ -79,6 +82,15 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             GregorianCalendar calendar = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
             homeViewModel.loadListItems(calendar.getTimeInMillis());
         }
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+
+        label.setText("Items due on " + DateFormat.format("MMMM dd yyyy", cal));
 
         listView.setAdapter(mCalendarAdapter);
         return root;

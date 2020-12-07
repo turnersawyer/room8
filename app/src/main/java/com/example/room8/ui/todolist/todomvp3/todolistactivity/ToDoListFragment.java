@@ -3,6 +3,7 @@ package com.example.room8.ui.todolist.todomvp3.todolistactivity;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.example.room8.ui.todolist.todomvp3.addedittodoitem.AddEditToDoItemAct
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItem;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static androidx.core.util.Preconditions.checkNotNull;
@@ -261,7 +263,7 @@ public class ToDoListFragment extends Fragment implements ToDoListContract.View 
             //used in the OnItemClick callback
             final ToDoItem toDoItem = getItem(i);
 
-            TextView titleTV = (TextView) rowView.findViewById(R.id.etItemTitle);
+            final TextView titleTV = (TextView) rowView.findViewById(R.id.etItemTitle);
             titleTV.setText(toDoItem.getTitle());
 
             TextView contentTV = (TextView) rowView.findViewById(R.id.etItemContent);
@@ -273,6 +275,19 @@ public class ToDoListFragment extends Fragment implements ToDoListContract.View 
             TextView dueDateTV = (TextView) rowView.findViewById(R.id.etItemDueDate);
             dueDateTV.setText("Due Date: " + DateFormat.format("MMMM dd yyyy h:mmaa", toDoItem.getDueDate()));
 
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            final long currentDate = cal.getTimeInMillis();
+
+            if (toDoItem.getDueDate() < currentDate + 86400000 && toDoItem.getCompleted() == false) {
+                titleTV.setTextColor(Color.RED);
+            } else {
+                titleTV.setTextColor(Color.BLACK);
+            }
+
             /**
              * Sets listener to delete button
              */
@@ -282,15 +297,6 @@ public class ToDoListFragment extends Fragment implements ToDoListContract.View 
                 public void onClick(View view) {
                     //Set delete listener
                     mDeleteListener.onDeleteItemClick(toDoItem);
-//                    AlarmManager alarmManager;
-//                    if (Build.VERSION.SDK_INT >= 23) {
-//                        alarmManager = view.getContext().getSystemService(AlarmManager.class);
-//                    } else {
-//                        alarmManager = (AlarmManager) view.getContext().getSystemService(Context.ALARM_SERVICE);
-//                    }
-//                    Intent alarmNotificationIntent = new Intent(view.getContext(), AlarmNotification.class);
-//                    PendingIntent alarmIntent = PendingIntent.getBroadcast(view.getContext(), toDoItem.getId(), alarmNotificationIntent, 0);
-//                    alarmManager.cancel(alarmIntent);
                 }
             });
 
@@ -313,46 +319,16 @@ public class ToDoListFragment extends Fragment implements ToDoListContract.View 
                 public void onClick(View view) {
                     //Set complete listener
                     mCompleteListener.onCompleteItemClick(toDoItem);
+                    if (toDoItem.getDueDate() < currentDate + 86400000 && !toDoItem.getCompleted()) {
+                        titleTV.setTextColor(Color.RED);
+                    } else {
+                        titleTV.setTextColor(Color.BLACK);
+                    }
                 }
             });
 
-//            if (toDoItem.getCompleted() == false) {
-//                setAlarm(toDoItem.getDueDate(), toDoItem.getId(), rowView, toDoItem.getTitle());
-//            }
-
             return rowView;
         }
-
-//        public void setAlarm(long dueDate, int id, View view, String title) {
-//
-//            Calendar testCal = Calendar.getInstance();
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.setTimeInMillis(dueDate);
-//            //testCal.setTimeInMillis(dueDate);
-//
-//            //if (testCal.get(Calendar.YEAR))
-//
-//            AlarmManager alarmManager;
-//            testCal.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-//            testCal.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-//            testCal.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
-//            testCal.set(Calendar.MINUTE, 0);
-//            testCal.set(Calendar.HOUR, 0);
-//            //testCal.add(Calendar.SECOND, 10);
-//
-//
-//            if (Build.VERSION.SDK_INT >= 23) {
-//                alarmManager = view.getContext().getSystemService(AlarmManager.class);
-//            } else {
-//                alarmManager = (AlarmManager) view.getContext().getSystemService(Context.ALARM_SERVICE);
-//            }
-//            Intent alarmNotificationIntent = new Intent(view.getContext(), AlarmNotification.class);
-//            alarmNotificationIntent.putExtra("todoTitle", title);
-//            PendingIntent alarmIntent = PendingIntent.getBroadcast(view.getContext(), id, alarmNotificationIntent, 0);
-//            alarmManager.cancel(alarmIntent);
-//            alarmManager.setExact(AlarmManager.RTC_WAKEUP, testCal.getTimeInMillis(), alarmIntent);
-//            Log.d("EDIT", "SET ALARM FOR " + DateFormat.format("mm dd yyyy h:mmaa", testCal));
-//        }
     }
 
     public interface ToDoItemsListener {
