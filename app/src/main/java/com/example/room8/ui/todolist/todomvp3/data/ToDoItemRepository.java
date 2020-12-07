@@ -52,7 +52,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
         apartmentPath = collection;
     }
 
-    public String getCollectionPathApartment(){
+    public static String getCollectionPathApartment(){
         return apartmentPath;
     }
 
@@ -67,6 +67,7 @@ public class ToDoItemRepository implements ToDoListDataSource {
         final List<ToDoItem> toDoItems = new ArrayList<ToDoItem>(0);
 
         INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo)
+                .orderBy("dueDate")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
