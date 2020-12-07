@@ -4,12 +4,15 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -64,31 +67,48 @@ public class ToDoItemRepository implements ToDoListDataSource {
     public void getToDoItems(@NonNull final LoadToDoItemsCallback callback) {
         Log.d("REPOSITORY","Loading...");
 
-        final List<ToDoItem> toDoItems = new ArrayList<ToDoItem>(0);
-
-        INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection(collectionPathToDo)
+        INSTANCE.collection(collectionPathApartment)
+                .document(apartmentPath)
+                .collection(collectionPathToDo)
                 .orderBy("dueDate")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Log.d("Getting all items", "loading all from firebase: " + document.getId() + " => " + document.getData());
-                                ToDoItem loadedToDo = document.toObject(ToDoItem.class);
-                                toDoItems.add(loadedToDo);
-                                // Log.d("Getting all items", "loaded todo: " + loadedToDo.getId());
-                            }
-                        } else {
-                            Log.d("Getting all items", "Error getting documents: ", task.getException());
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            //Log.w(TAG, "Listen failed.", e);
+                            return;
                         }
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        final List<ToDoItem> toDoItems = new ArrayList<ToDoItem>(0);
+                        for (QueryDocumentSnapshot doc : value) {
+                            ToDoItem loadedToDo = doc.toObject(ToDoItem.class);
+                            toDoItems.add(loadedToDo);
+                        }
                         callback.onToDoItemsLoaded(toDoItems);
                     }
                 });
+
+//        .get()
+//        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//        @Override
+//        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//            if (task.isSuccessful()) {
+//                for (QueryDocumentSnapshot document : task.getResult()) {
+//                    // Log.d("Getting all items", "loading all from firebase: " + document.getId() + " => " + document.getData());
+//                    ToDoItem loadedToDo = document.toObject(ToDoItem.class);
+//                    toDoItems.add(loadedToDo);
+//                    // Log.d("Getting all items", "loaded todo: " + loadedToDo.getId());
+//                }
+//            } else {
+//                Log.d("Getting all items", "Error getting documents: ", task.getException());
+//
+//            }).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                    callback.onToDoItemsLoaded(toDoItems);
+//                }
+//            });
 
     }
 
