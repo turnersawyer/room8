@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -95,53 +96,110 @@ public class ToDoItemRepository implements ToDoListDataSource {
 
     public static void getMissedMessages(@NonNull final String uid, @NonNull final LoadMessagesCallback callback) {
 
-        final List<ChatMessage> messages = new ArrayList<ChatMessage>(0);
-
         INSTANCE.collection("users").document(uid).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String lastMessageId = (String) documentSnapshot.get("lastSeenMessageId");
+                        final String lastMessageId = (String) documentSnapshot.get("lastSeenMessageId");
 
-                        INSTANCE.collection(collectionPathApartment).document(apartmentPath)
-                                .collection("messages").document(lastMessageId)
-                                .get()
-                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                                        INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection("messages")
-                                                .orderBy("time")
-                                                .whereGreaterThan("time", documentSnapshot.get("time"))
-                                                .get()
-                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                        if (task.isSuccessful()) {
-                                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                Log.d("Getting all items", "loaded from firebase by date: " + document.getId() + " => " + document.getData());
-                                                                ChatMessage loadedMessage = document.toObject(ChatMessage.class);
-                                                                if (loadedMessage.getUID() != uid) {
-                                                                    messages.add(loadedMessage);
-                                                                }
-                                                                Log.d("Getting all items", "loaded messages: " + loadedMessage.toString());
-                                                            }
-                                                        } else {
-                                                            Log.d("Getting all items", "Error getting documents: ", task.getException());
-                                                        }
-                                                    }
-                                                })
-                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                        callback.onMessagesLoaded(messages);
-                                                    }
-                                                });
-                                    }
-                                });
+                        if (lastMessageId == null) {
+                            INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection("messages")
+                                    .orderBy("time", Query.Direction.ASCENDING)
+                                    .limit(1)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                String messageId = null;
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    messageId = document.getId();
+                                                }
+                                                if (messageId != null) {
+                                                    getMessages(messageId, uid, callback);
+                                                }
+                                            } else {
+                                                Log.d("Getting all items", "Error getting documents: ", task.getException());
+                                            }
+                                        }
+                                    });
+                        } else {
+                            getMessages(lastMessageId, uid, callback);
+                        }
                     }
                 });
 
+    }
+
+    public static void getMessages(String lastMessageId, @NonNull final String uid, @NonNull final LoadMessagesCallback callback) {
+
+        final List<ChatMessage> messages = new ArrayList<ChatMessage>(0);
+
+        INSTANCE.collection(collectionPathApartment).document(apartmentPath)
+                .collection("messages").document(lastMessageId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        if (documentSnapshot.get("time") != null) {
+                            INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection("messages")
+                                    .orderBy("time")
+                                    .whereGreaterThan("time", documentSnapshot.get("time"))
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    Log.d("Getting all items", "loaded from firebase by date: " + document.getId() + " => " + document.getData());
+                                                    ChatMessage loadedMessage = document.toObject(ChatMessage.class);
+                                                    if (loadedMessage.getUID() != uid) {
+                                                        messages.add(loadedMessage);
+                                                    }
+                                                    Log.d("Getting all items", "loaded messages: " + loadedMessage.toString());
+                                                }
+                                            } else {
+                                                Log.d("Getting all items", "Error getting documents: ", task.getException());
+                                            }
+                                        }
+                                    })
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            callback.onMessagesLoaded(messages);
+                                        }
+                                    });
+                        } else {
+                            INSTANCE.collection(collectionPathApartment).document(apartmentPath).collection("messages")
+                                    .orderBy("time")
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    Log.d("Getting all items", "loaded from firebase by date: " + document.getId() + " => " + document.getData());
+                                                    ChatMessage loadedMessage = document.toObject(ChatMessage.class);
+                                                    if (loadedMessage.getUID() != uid) {
+                                                        messages.add(loadedMessage);
+                                                    }
+                                                    Log.d("Getting all items", "loaded messages: " + loadedMessage.toString());
+                                                }
+                                            } else {
+                                                Log.d("Getting all items", "Error getting documents: ", task.getException());
+                                            }
+                                        }
+                                    })
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            callback.onMessagesLoaded(messages);
+                                        }
+                                    });
+                        }
+                    }
+                });
     }
 
     @Override

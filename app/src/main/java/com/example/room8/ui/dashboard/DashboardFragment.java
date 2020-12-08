@@ -140,8 +140,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         mChatMessageAdapter.notifyDataSetChanged();
-                                        recyclerView.smoothScrollToPosition(mMessages.size()-1);
-                                        Log.d("SCROLL", "Scrolling to: " + mMessages.get(mMessages.size()-1).getMessage());
+                                        if (mMessages.size() > 0) {
+                                            recyclerView.smoothScrollToPosition(mMessages.size() - 1);
+                                        } else {
+                                            recyclerView.smoothScrollToPosition(mMessages.size());
+                                        }
                                     }
                                 });
                     }
