@@ -63,7 +63,8 @@
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_delete" />
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@null"/>
 
     <ToggleButton
         android:id="@+id/completeButton"
@@ -82,7 +83,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/etItemContent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@drawable/button_toggle"/>
 
     <Space
         android:layout_width="wrap_content"

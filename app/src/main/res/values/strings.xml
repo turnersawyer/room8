@@ -11,7 +11,7 @@
     <string name="save_todo_button">Save To Do</string>
     <string name="switch_label">Completed</string>
     <string name="due_date_label">Due Date: (click to change)</string>
-    <string name="not_complete_toggle">Not Complete</string>
+    <string name="not_complete_toggle">Not \n Complete</string>
     <string name="complete_toggle">Complete</string>
     <string name="banner_title">Items Due Today:</string>
 
