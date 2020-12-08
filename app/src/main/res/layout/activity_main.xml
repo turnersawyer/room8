@@ -21,11 +21,12 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="64dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="1" />
+            android:layout_marginBottom="8dp"/>
 
         <TextView
             android:id="@+id/apartmentTitle"
@@ -47,7 +48,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/colorPrimaryDark"
+            android:backgroundTint="@color/colorPrimary"
             android:textColor="@android:color/white"
             app:srcCompat="@drawable/settings_btn_image" />
 

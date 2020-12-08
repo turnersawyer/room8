@@ -2,18 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_main_menu"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
-
+        android:title="Home" />
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/calendar_btn_image"
+        android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_notifications"
         android:icon="?attr/actionModePasteDrawable"
         android:title="@string/title_todo" />
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/message_btn_image"
+        android:title="Messages" />
 
 </menu>

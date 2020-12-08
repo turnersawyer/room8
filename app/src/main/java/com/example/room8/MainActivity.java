@@ -18,7 +18,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.room8.ui.dashboard.chat.User;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 import com.example.room8.ui.todolist.todomvp3.todolistactivity.ToDoListContract;
 import com.google.android.gms.tasks.OnCompleteListener;
