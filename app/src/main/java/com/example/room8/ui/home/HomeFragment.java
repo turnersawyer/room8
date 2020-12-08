@@ -1,6 +1,7 @@
 package com.example.room8.ui.home;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -150,8 +152,13 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             TextView calendarDate = (TextView) rowView.findViewById(R.id.calendarRowDate);
             SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
             calendarDate.setText(sdf.format(calendarItem.getDueDate()));
+            Log.d("CALENDAR", "TITLE: " + calendarItem.toString());
 
             TextView calendarTitle = (TextView) rowView.findViewById(R.id.calendarRowTitle);
+
+            if(calendarItem.getCompleted() == false){
+                calendarTitle.setTextColor(Color.RED);
+            }
             calendarTitle.setText(calendarItem.getTitle());
             Log.d("CALENDAR", "TITLE: " + calendarItem.getTitle());
 
