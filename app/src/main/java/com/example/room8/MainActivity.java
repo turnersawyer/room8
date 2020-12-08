@@ -279,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     changeField("apartment", newApartmentName);
+                    ToDoItemRepository.setCollectionPath(newApartmentName);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     apartmentDialog.dismiss();
                 }
