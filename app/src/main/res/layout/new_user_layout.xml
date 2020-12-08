@@ -16,7 +16,8 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/CustomEditText"/>
 
     <EditText
         android:id="@+id/confirmNewEmail"
@@ -28,6 +29,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/CustomEditText"
         app:layout_constraintTop_toBottomOf="@+id/newEmail" />
 
     <EditText
@@ -40,6 +42,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/CustomEditText"
         app:layout_constraintTop_toBottomOf="@+id/confirmNewEmail" />
 
     <EditText
@@ -52,6 +55,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/CustomEditText"
         app:layout_constraintTop_toBottomOf="@+id/newPassword" />
 
     <EditText
@@ -65,6 +69,7 @@
         app:layout_constraintBottom_toTopOf="@+id/newName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/CustomEditText"
         app:layout_constraintTop_toBottomOf="@+id/confirmNewPassword" />
 
     <LinearLayout
@@ -75,6 +80,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/CustomEditText"
         app:layout_constraintTop_toBottomOf="@+id/newName">
 
         <Button
@@ -85,6 +91,8 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"
             android:text="@string/new_user_cancel_title" />
 
         <Button
@@ -95,6 +103,8 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"
             android:text="@string/new_user_confirm_title" />
 
     </LinearLayout>

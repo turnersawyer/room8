@@ -19,13 +19,14 @@
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_marginBottom="8dp"
+            android:textStyle="bold"
             android:textAlignment="textEnd" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/round_rectangle"
-            android:backgroundTint="?attr/colorButtonNormal"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:gravity="center_vertical|end"
             android:orientation="horizontal">
 
@@ -41,7 +42,7 @@
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp"
                 android:text="Hi. How are you? Some random text here and here. I need spend more time for android dev"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 app:layout_constrainedWidth="true" />
 
             <TextView
@@ -51,13 +52,13 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:lines="2"
                 android:paddingStart="8dp"
                 android:paddingTop="8dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp"
-                android:lines="2"
                 android:text="Now"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?attr/colorButtonNormal"
                 android:textSize="12sp" />
         </LinearLayout>
 

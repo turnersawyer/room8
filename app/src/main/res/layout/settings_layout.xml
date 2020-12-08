@@ -65,6 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"
             android:text="@string/change_apartment_button_title" />
 
         <Button
@@ -72,6 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"
             android:text="@string/change_password_button_title" />
 
         <Button
@@ -88,6 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"
             android:text="@string/settings_close_title" />
 
     </LinearLayout>

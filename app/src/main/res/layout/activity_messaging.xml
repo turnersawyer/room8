@@ -12,6 +12,7 @@
             android:clickable="true"
             android:id="@+id/fab"
             android:tint="@android:color/white"
+            android:backgroundTint="@color/colorPrimary"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:src="@android:drawable/ic_menu_send" android:layout_marginEnd="4dp"
@@ -37,6 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
                 android:hint="Send Message"
+                android:theme="@style/CustomEditText"
                 android:id="@+id/input"/>
 
     </com.google.android.material.textfield.TextInputLayout>

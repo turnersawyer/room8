@@ -17,7 +17,9 @@
         android:text="@string/save_todo_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:textColor="@android:color/white"/>
 
     <EditText
         android:id="@+id/etItemContent"
@@ -33,6 +35,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnSaveToDoItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/CustomEditText"
         app:layout_constraintTop_toBottomOf="@+id/etItemTitle" />
 
     <EditText
@@ -48,7 +51,8 @@
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/CustomEditText"/>
 
     <Switch
         android:id="@+id/completedSwitch"
