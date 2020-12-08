@@ -1,46 +1,30 @@
 package com.example.room8.ui.dashboard;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.example.room8.MainActivity;
 import com.example.room8.R;
 import com.example.room8.ui.dashboard.chat.ChatMessage;
 import com.example.room8.ui.dashboard.chat.ChatMessageAdapter;
 import com.example.room8.ui.dashboard.chat.User;
-import com.example.room8.ui.todolist.todomvp3.data.ToDoItem;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -48,10 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import static androidx.core.util.Preconditions.checkNotNull;
 
 public class DashboardFragment extends Fragment implements View.OnClickListener {
 
@@ -124,35 +105,32 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     }
 
-
-
-
     public void loadChatMessages(){
 
         myDb.collection(collectionPathApartment)
                 .document(apartmentPath)
                 .collection(collectionPathMessages)
                 .orderBy("time", Query.Direction.ASCENDING)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document: task.getResult()){
-                                Log.d("Getting all the messages", "loading from firebase: " + document.getId() + " => " + document.getData());
-                                ChatMessage message = document.toObject(ChatMessage.class);
-                                mMessages.add(message);
-                                recyclerView.smoothScrollToPosition(mMessages.size()-1);
-                                Log.d("Getting all items", "loaded messages: " + mMessages.size());
 
-                            }
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            //Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+
+                        mMessages.clear();
+
+                        for (QueryDocumentSnapshot doc : value) {
+                            ChatMessage message = doc.toObject(ChatMessage.class);
+                            mMessages.add(message);
+                            recyclerView.smoothScrollToPosition(mMessages.size()-1);
                         }
                         mChatMessageAdapter.notifyDataSetChanged();
                     }
                 });
-
-
-
     }
 
     @Override
@@ -162,20 +140,19 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         if(!message.equals("")){
             message = message.replaceAll(System.getProperty("line.separator"), "");
 
-            DocumentReference newMessageDoc = myDb
-                    .collection(collectionPathApartment)
-                    .document(apartmentPath)
-                    .collection(collectionPathMessages)
-                    .document();
-
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setMessage(message);
             chatMessage.setTime(new Timestamp(new Date(System.currentTimeMillis())));
 
             String user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
             chatMessage.setName(user);
+            chatMessage.setUID(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-            newMessageDoc.set(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
+            myDb.collection(collectionPathApartment)
+                    .document(apartmentPath)
+                    .collection(collectionPathMessages)
+                    .document()
+                    .set(chatMessage).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){

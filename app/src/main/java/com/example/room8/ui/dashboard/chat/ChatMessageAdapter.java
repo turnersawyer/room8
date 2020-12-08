@@ -24,6 +24,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
     public static final int msg_left = 0;
     public static final int msg_right = 1;
     private String displayName;
+    private String currentUID;
 
     public ChatMessageAdapter(ArrayList<ChatMessage> messages, ArrayList<User> users, Context context){
 
@@ -34,8 +35,8 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.
 
     @Override
     public int getItemViewType(int position){
-        displayName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        if(displayName.equals(mMessages.get(position).getName())){
+        currentUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if(currentUID.equals(mMessages.get(position).getUID())){
             return msg_right;
         }else{
             return msg_left;

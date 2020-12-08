@@ -6,6 +6,7 @@ public class ChatMessage {
     private String messageText;
     private Timestamp messageTime;
     private String user;
+    private String UID;
 
     public ChatMessage(String users, String messageText) {
         this.user = users;
@@ -34,9 +35,12 @@ public class ChatMessage {
         this.messageText = messageText;
     }
 
-    public String getUserId(String user){
+    public String getUID(){
+        return UID;
+    }
 
-        return user;
+    public void setUID(String uid) {
+        this.UID = uid;
     }
 
     public Timestamp getTime() {
