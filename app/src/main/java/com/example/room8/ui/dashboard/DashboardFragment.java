@@ -19,6 +19,7 @@ import com.example.room8.ui.dashboard.chat.ChatMessageAdapter;
 import com.example.room8.ui.dashboard.chat.User;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +42,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     private FirebaseFirestore myDb;
     private static FirebaseFirestore INSTANCE;
+    private FirebaseAuth mAuth;
     private static String collectionPathApartment = "apartments";
     private static String collectionPathMessages = "messages";
     private static String apartmentPath;
@@ -57,6 +59,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -123,12 +126,24 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
                         mMessages.clear();
 
+                        String lastMessageId = null;
+
                         for (QueryDocumentSnapshot doc : value) {
                             ChatMessage message = doc.toObject(ChatMessage.class);
                             mMessages.add(message);
-                            recyclerView.smoothScrollToPosition(mMessages.size()-1);
+                            lastMessageId = doc.getId();
                         }
-                        mChatMessageAdapter.notifyDataSetChanged();
+                        
+                        myDb.collection("users").document(mAuth.getCurrentUser().getUid())
+                                .update("lastSeenMessageId", lastMessageId)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        mChatMessageAdapter.notifyDataSetChanged();
+                                        recyclerView.smoothScrollToPosition(mMessages.size()-1);
+                                        Log.d("SCROLL", "Scrolling to: " + mMessages.get(mMessages.size()-1).getMessage());
+                                    }
+                                });
                     }
                 });
     }

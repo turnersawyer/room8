@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -158,6 +157,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
             if(calendarItem.getCompleted() == false){
                 calendarTitle.setTextColor(Color.RED);
+            } else {
+                calendarTitle.setTextColor(Color.BLACK);
             }
             calendarTitle.setText(calendarItem.getTitle());
             Log.d("CALENDAR", "TITLE: " + calendarItem.getTitle());

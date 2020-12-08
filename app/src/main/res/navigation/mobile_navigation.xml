@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_main_menu">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -22,4 +22,10 @@
         android:name="com.example.room8.ui.todolist.todomvp3.todolistactivity.ToDoListActivity"
         android:label="@string/title_todo"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_main_menu"
+        android:name="com.example.room8.ui.mainMenu.MainMenuFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_main_menu" />
 </navigation>

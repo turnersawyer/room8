@@ -2,6 +2,8 @@ package com.example.room8.ui.todolist.todomvp3.data;
 
 import androidx.annotation.NonNull;
 
+import com.example.room8.ui.dashboard.chat.ChatMessage;
+
 import java.util.List;
 
 /**
@@ -20,6 +22,13 @@ public interface ToDoListDataSource {
     interface LoadToDoItemsCallback {
 
         void onToDoItemsLoaded(List<ToDoItem> toDoItems);
+
+        void onDataNotAvailable();
+    }
+
+    interface LoadMessagesCallback {
+
+        void onMessagesLoaded(List<ChatMessage> chatMessages);
 
         void onDataNotAvailable();
     }
