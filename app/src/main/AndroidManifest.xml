@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".MainActivity"/>
         <activity android:name=".ui.todolist.todomvp3.addedittodoitem.AddEditToDoItemActivity" />
+        <activity android:name=".ui.expenses.addeditexpenseitem.AddEditExpenseItemActivity" />
 
         <provider
             android:name=".ui.todolist.todomvp3.data.ToDoProvider"

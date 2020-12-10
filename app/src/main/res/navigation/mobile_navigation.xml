@@ -28,4 +28,10 @@
         android:name="com.example.room8.ui.mainMenu.MainMenuFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_main_menu" />
+
+    <fragment
+        android:id="@id/navigation_expense"
+        android:name="com.example.room8.ui.expenses.expenselistactivity.ExpenseListActivity"
+        android:label="Expense List"
+        tools:layout="@layout/fragment_expense_list" />
 </navigation>

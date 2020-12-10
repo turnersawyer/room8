@@ -20,4 +20,9 @@
         android:icon="@drawable/message_btn_image"
         android:title="Messages" />
 
+    <item
+        android:id="@+id/navigation_expense"
+        android:icon="@drawable/ic_dollar_sign"
+        android:title="Expenses" />
+
 </menu>

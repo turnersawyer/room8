@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.room8.ui.expenses.data.ExpenseItemRepository;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -174,6 +175,7 @@ public class SplashScreen extends MainActivity {
 
                                 String apartmentName = document.getString("apartment");
                                 ToDoItemRepository.setCollectionPath(apartmentName);
+                                ExpenseItemRepository.setCollectionPath(apartmentName);
 
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             } else {
