@@ -18,6 +18,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.room8.ui.expenses.data.ExpenseItemRepository;
 import com.example.room8.ui.todolist.todomvp3.data.ToDoItemRepository;
 import com.example.room8.ui.todolist.todomvp3.todolistactivity.ToDoListContract;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -280,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     changeField("apartment", newApartmentName);
                     ToDoItemRepository.setCollectionPath(newApartmentName);
+                    ExpenseItemRepository.setCollectionPath(newApartmentName);
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     apartmentDialog.dismiss();
                 }
